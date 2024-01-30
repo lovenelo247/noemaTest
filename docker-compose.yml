@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  db:
+    image: parasoft/parabank:latest
+    ports:
+      - "8080:8080"
+  test:
+    image: loveday247/noematest:1.0.0
+    ports:
+      - "8081:9323"
+    depends_on:
+      - db
