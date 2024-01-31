@@ -1,4 +1,4 @@
-FROM node:18.19-alpine
+FROM node:20.11.0-alpine
 
 RUN apk add g++ make
 RUN apk add openssl-dev
@@ -13,7 +13,5 @@ RUN npx playwright install
 
 COPY . .
 
-EXPOSE 9323
-
 # Start the app
-CMD ["npm", "test”]
+CMD ["npm", "test"]
