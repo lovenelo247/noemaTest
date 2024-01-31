@@ -1,14 +1,15 @@
+const dotenv = require("dotenv");
 const { test, expect } = require("@playwright/test");
 const { firstUser, payBill, invalidUser } = require("./test-data");
+
+dotenv.config();
 
 test.describe.configure({ mode: "serial", retries: 0 });
 
 const softExpect = expect.configure({ soft: true, timeout: 6000 });
 
 async function registration(page) {
-  await page.goto(
-    "http://localhost:8080/parabank/index.htm;jsessionid=8BB68AEDF53407EFE46462110B64991E"
-  );
+  await page.goto(`${process.env.BASE_URL}/parabank/index.htm`);
   await page.getByRole("link", { name: "Register" }).click();
   await page.locator('[id="customer\\.firstName"]').click();
   await page
@@ -59,7 +60,7 @@ test("Register user", async ({ page }) => {
 
 test("Successful Login Test", async ({ page }) => {
   // Login
-  await page.goto("http://localhost:8080/parabank/index.htm");
+  await page.goto(`${process.env.BASE_URL}/parabank/index.htm`);
   await page.locator('input[name="username"]').click();
   await page.locator('input[name="username"]').fill(`${firstUser.username}`);
   await page.locator('input[name="password"]').click();
@@ -69,7 +70,7 @@ test("Successful Login Test", async ({ page }) => {
 });
 
 test("Unsuccessful Login Test-invalid password", async ({ page }) => {
-  await page.goto("http://localhost:8080/parabank/index.htm");
+  await page.goto(`${process.env.BASE_URL}/parabank/index.htm`);
   await page.locator('input[name="username"]').click();
   await page.locator('input[name="username"]').fill(`${firstUser.username}`);
   await page.locator('input[name="password"]').click();
@@ -91,7 +92,7 @@ test.describe("Start main test", () => {
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
-    await page.goto("http://localhost:8080/parabank/index.htm");
+    await page.goto(`${process.env.BASE_URL}/parabank/index.htm`);
     await page.locator('input[name="username"]').click();
     await page.locator('input[name="username"]').fill(`${firstUser.username}`);
     await page.locator('input[name="password"]').click();
@@ -111,7 +112,9 @@ test.describe("Start main test", () => {
     await page.getByRole("link", { name: "Open New Account" }).click();
     await page.getByRole("button", { name: "Open New Account" }).click();
     await page.getByRole("link", { name: "Accounts Overview" }).click();
-    await softExpect(page.getByText("$3500,000.00")).toHaveText("$3500,000.00");
+    // await page.pause();
+    // await softExpect(page.getByText("$3500,000.00")).toHaveText("$3500,000.00");
+    await softExpect(page.getByText("$3500,000.00")).toBeVisible();
   });
 
   test("transfer from-to same account", async () => {

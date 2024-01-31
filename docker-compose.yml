@@ -1,13 +1,11 @@
-version: '3.1'
+version: "3.1"
 
 services:
-  db:
-    image: parasoft/parabank:latest
-    ports:
-      - "8080:8080"
   test:
-    image: loveday247/noematest:1.0.0
+    image: noema:1.0.0
+    container_name: "test"
+    environment:
+      - BASE_URL=${BASE_URL}
     ports:
       - "8081:9323"
-    depends_on:
-      - db
+

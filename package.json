@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test ./tests/noema.spec.js --project chromium --headed"
+    "test": "playwright test ./tests/noema.spec.js --project chromium"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,8 @@
     "@faker-js/faker": "^8.4.0",
     "@playwright/test": "^1.41.1",
     "@types/node": "^20.11.6"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.1"
   }
 }
